@@ -10,7 +10,26 @@
 #include "SwiftPlugin-Swift.h"
 
 extern "C" {
-    void myFunc(){
-        [[SwiftNative shared]myFunction];
-    }    
+    void showAlert(char* cSharpString){
+        [[SwiftNative shared]showAlertWithMsg:[NSString stringWithUTF8String:cSharpString]];
+    }
+    
+    void toCustomPage(){
+        [[SwiftNative shared]toCustomPage];
+    }
+    
+    char* getDummyStr(){
+        NSString *dummyStr = [[SwiftNative shared]getDummyStr];
+        char* cStringCopy(const char* string);
+        return cStringCopy([dummyStr UTF8String]);
+    }
+}
+
+char* cStringCopy(const char* string){
+    if (string == NULL){
+        return NULL;
+    }
+    char* res = (char*)malloc(strlen(string)+1);
+    strcpy(res, string);
+    return res;
 }

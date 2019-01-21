@@ -6,15 +6,36 @@ using System.Runtime.InteropServices;
 
 public class Main : MonoBehaviour {
 
-    public Button btnOpen;
+    public Button btnAlert;
+    public Button btnCustomPage;
+    public Button btnGetDummyStr;
 
     [DllImport("__Internal")]
-    private static extern void myFunc();
+    private static extern void showAlert(string msg);
+    [DllImport("__Internal")]
+    private static extern void toCustomPage();
+    [DllImport("__Internal")]
+    private static extern string getDummyStr();
+
 
     private void Awake()
     {
-        btnOpen.onClick.AddListener(()=>{
-            myFunc();
+#if UNITY_IOS && !UNITY_EDITOR
+
+        btnAlert.onClick.AddListener(()=>{
+            showAlert("msg from unity");
         });
+
+        btnCustomPage.onClick.AddListener(() => {
+            toCustomPage();
+        });
+
+        btnGetDummyStr.onClick.AddListener(() => {
+            print(getDummyStr());
+        });
+
+#endif
+
     }
+
 }
